@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Let’s Learn About Polkadot’s Brain: The RuntimeHey everyone, today I want to break down one of the most important parts of Polkadot: its Runtime. It can seem complicated, but once you get the hang of">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Polkadot&#39;s Brain: The Runtime">
+<meta property="og:url" content="https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/index.html">
+<meta property="og:site_name" content="Dio&#39;s Blogs">
+<meta property="og:description" content="Let’s Learn About Polkadot’s Brain: The RuntimeHey everyone, today I want to break down one of the most important parts of Polkadot: its Runtime. It can seem complicated, but once you get the hang of">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://diobr4nd0.github.io/images/path_graph.png">
+<meta property="og:image" content="https://diobr4nd0.github.io/images/polkadot_detailed_arch.png">
+<meta property="og:image" content="https://diobr4nd0.github.io/images/definitions.png">
+<meta property="article:published_time" content="2025-06-08T17:53:02.000Z">
+<meta property="article:modified_time" content="2025-06-08T18:06:35.089Z">
+<meta property="article:author" content="Rupesh Prajapati">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://diobr4nd0.github.io/images/path_graph.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Polkadot&#39;s Brain: The Runtime</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/DioBr4nd0">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/06/07/Understanding-Polkadot-What-is-it-why-it-matters/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&text=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&is_video=false&description=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Polkadot&#39;s Brain: The Runtime&body=Check out this article: https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&name=Polkadot&#39;s Brain: The Runtime&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&t=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Let%E2%80%99s-Learn-About-Polkadot%E2%80%99s-Brain-The-Runtime"><span class="toc-number">1.</span> <span class="toc-text">Let’s Learn About Polkadot’s Brain: The Runtime</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Some-Key-Concepts-Before-We-Start"><span class="toc-number">1.0.1.</span> <span class="toc-text">Some Key Concepts Before We Start</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Okay-Let%E2%80%99s-Get-Started-What-Is-Polkadot"><span class="toc-number">1.0.2.</span> <span class="toc-text">Okay, Let’s Get Started: What Is Polkadot?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Different-Jobs-Types-of-Nodes"><span class="toc-number">1.0.3.</span> <span class="toc-text">The Different Jobs: Types of Nodes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Look-at-the-Architecture"><span class="toc-number">1.0.4.</span> <span class="toc-text">A Look at the Architecture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Polkadot-Tech-Stack"><span class="toc-number">1.0.5.</span> <span class="toc-text">The Polkadot Tech Stack</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#A-Closer-Look-at-the-Runtime"><span class="toc-number">1.1.</span> <span class="toc-text">A Closer Look at the Runtime</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#How-History-is-Recorded-Blocks"><span class="toc-number">1.1.1.</span> <span class="toc-text">How History is Recorded: Blocks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Storing-Everything-The-State-Trie"><span class="toc-number">1.1.2.</span> <span class="toc-text">Storing Everything: The State Trie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Building-a-Runtime-FRAME-and-Pallets"><span class="toc-number">1.1.3.</span> <span class="toc-text">Building a Runtime: FRAME and Pallets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References-and-Further-Reading"><span class="toc-number">1.1.4.</span> <span class="toc-text">References and Further Reading</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Polkadot&#39;s Brain: The Runtime
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Rupesh Prajapati</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-06-08T17:53:02.000Z" class="dt-published" itemprop="datePublished">2025-06-08</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="Let’s-Learn-About-Polkadot’s-Brain-The-Runtime"><a href="#Let’s-Learn-About-Polkadot’s-Brain-The-Runtime" class="headerlink" title="Let’s Learn About Polkadot’s Brain: The Runtime"></a>Let’s Learn About Polkadot’s Brain: The Runtime</h1><p>Hey everyone, today I want to break down one of the most important parts of Polkadot: its <strong>Runtime</strong>. It can seem complicated, but once you get the hang of it, it’s actually a really clever idea.</p>
+<p>Before we dive in, let’s get a few basic definitions out of the way. These will help everything else make more sense.</p>
+<hr>
+<h3 id="Some-Key-Concepts-Before-We-Start"><a href="#Some-Key-Concepts-Before-We-Start" class="headerlink" title="Some Key Concepts Before We Start"></a>Some Key Concepts Before We Start</h3><ul>
+<li><strong>Discrete State Machine (DSM):</strong> This is just a fancy way of saying a system has a limited number of states (like “On” or “Off”) and can only switch between them based on specific inputs. Think of a simple vending machine—it’s either idle, waiting for money, or dispensing a drink. It can’t be in between states.</li>
+<li><strong>Path Graph:</strong> Imagine a line of dots where each dot is connected only to the one before it and the one after it (except for the start and end dots). That’s a path graph.<br><img src="/../images/path_graph.png" alt="A simple path graph showing connected nodes"></li>
+<li><strong>Blockchain as a Path Graph:</strong> A blockchain is basically a path graph where each dot is a block. The first block is the “genesis block,” and the last one is the “head” of the chain.</li>
+<li><strong>Replicated State Machine:</strong> This is the core idea of a blockchain. It’s a state machine (like our vending machine) that is copied (replicated) across many computers. They all process the same commands to make sure they all have the exact same state, which keeps the network secure and consistent.</li>
+</ul>
+<hr>
+<h3 id="Okay-Let’s-Get-Started-What-Is-Polkadot"><a href="#Okay-Let’s-Get-Started-What-Is-Polkadot" class="headerlink" title="Okay, Let’s Get Started: What Is Polkadot?"></a>Okay, Let’s Get Started: What Is Polkadot?</h3><p>At its core, Polkadot is designed to be a system of many blockchains working together. To make this possible, its architecture is split into two main parts:</p>
+<ol>
+<li><strong>The Host:</strong> Think of this as the computer’s hardware and operating system. It’s the stable, underlying part that handles basic tasks like networking, consensus (how nodes agree), and storing data.</li>
+<li><strong>The Runtime:</strong> This is the software running on the “hardware.” It’s the “brain” that contains all the rules and logic of the blockchain. It defines what a transaction is, how governance works—everything that makes the chain unique.</li>
+</ol>
+<p>The coolest part? The Runtime can be upgraded without stopping the network. Because it’s a separate piece of software, the community can vote to swap it out for a new version, kind of like updating an app on your phone. This is what people mean when they say “forkless upgrades.”</p>
+<h3 id="The-Different-Jobs-Types-of-Nodes"><a href="#The-Different-Jobs-Types-of-Nodes" class="headerlink" title="The Different Jobs: Types of Nodes"></a>The Different Jobs: Types of Nodes</h3><p>Not every computer on the network does the same thing. Depending on their role, they are different types of nodes running the Host software:</p>
+<ul>
+<li><strong>Light Client:</strong> A lightweight node for devices like phones. It doesn’t store the whole blockchain. Instead, it just asks full nodes for the specific information it needs and verifies it’s correct.</li>
+<li><strong>Full Client:</strong> A passive observer that downloads and checks every single block to make sure all the rules are followed. It holds a full copy of the blockchain’s history.</li>
+<li><strong>Authoring Client:</strong> An active participant. It does everything a full client does, but it can also create new blocks and vote on which blocks should be made permanent.</li>
+<li><strong>Relaying Node:</strong> The super-node. It does everything an authoring node does, plus helps validate and secure all the parachains connected to the network.</li>
+</ul>
+<p>Now, let’s get a visual of how all this fits together.</p>
+<hr>
+<h3 id="A-Look-at-the-Architecture"><a href="#A-Look-at-the-Architecture" class="headerlink" title="A Look at the Architecture"></a>A Look at the Architecture</h3><p>This diagram shows how different parts of the Runtime—like pallets and system modules—are organized. It gives you a good idea of the layered structure.</p>
+<p><img src="/../images/polkadot_detailed_arch.png" alt="A detailed look at Polkadot&#39;s architecture"></p>
+<p>And to build all this, developers use a specific set of tools.</p>
+<h3 id="The-Polkadot-Tech-Stack"><a href="#The-Polkadot-Tech-Stack" class="headerlink" title="The Polkadot Tech Stack"></a>The Polkadot Tech Stack</h3><p>This image breaks down the main components developers use to build on Polkadot. <strong>Substrate</strong> is the foundation, <strong>FRAME</strong> is the toolkit for building the blockchain’s logic, and things like <strong>Cumulus</strong> and <strong>XCM</strong> help parachains connect and communicate.</p>
+<p><img src="/../images/definitions.png" alt="An overview of the Polkadot SDK and its core components"></p>
+<hr>
+<h2 id="A-Closer-Look-at-the-Runtime"><a href="#A-Closer-Look-at-the-Runtime" class="headerlink" title="A Closer Look at the Runtime"></a>A Closer Look at the Runtime</h2><p>With that context, let’s dive deeper into the Runtime itself. This is where all the “rules of the game” for a blockchain are written.</p>
+<h3 id="How-History-is-Recorded-Blocks"><a href="#How-History-is-Recorded-Blocks" class="headerlink" title="How History is Recorded: Blocks"></a>How History is Recorded: Blocks</h3><p>The blockchain’s history is stored in <strong>blocks</strong>. Each block is a package of information with two parts: a header and a body.</p>
+<p><strong>The Block Header</strong><br>The header is like the block’s summary card. It contains:</p>
+<ul>
+<li><code>parent_hash</code>: A cryptographic fingerprint of the previous block, which links the blocks together into a chain.</li>
+<li><code>number</code>: The block’s number in the sequence (e.g., block #1,234,567).</li>
+<li><code>state_root</code>: A single hash that represents the <em>entire state</em> of the blockchain after this block’s changes. If even one tiny thing was different, this hash would be completely different.</li>
+<li><code>digest</code>: A spot for extra data, like the signature of the block’s author.</li>
+</ul>
+<p><strong>The Block Body and “Extrinsics”</strong><br>The body of a block contains <strong>extrinsics</strong>. This is Polkadot’s term for any information coming from <em>outside</em> the blockchain that can cause a change <em>inside</em> it.</p>
+<p>There are two main types of extrinsics:</p>
+<ol>
+<li><strong>Transaction Extrinsics:</strong> These are what we normally think of as transactions. A user signs a message with their private key to do something like send tokens. These are broadcast across the network for a block author to include.</li>
+<li><strong>Inherent Extrinsics:</strong> These are special, unsigned pieces of data that a block author adds themselves. They aren’t sent around the network by users. A common example is a <strong>timestamp</strong>—the block author just adds the current time to the block so everyone can agree on it.</li>
+</ol>
+<h3 id="Storing-Everything-The-State-Trie"><a href="#Storing-Everything-The-State-Trie" class="headerlink" title="Storing Everything: The State Trie"></a>Storing Everything: The State Trie</h3><p>Every time a new block is added, the state of the network changes (balances go up or down, etc.). A node needs to keep track of the state at many different points in time, especially for blocks that aren’t finalized yet.</p>
+<p>Doing this by saving a full copy of the database for every block would be impossible. Instead, Polkadot uses a <strong>State Trie</strong>.</p>
+<p>A trie is a special tree-like data structure. When the state changes, it doesn’t copy all the unchanged data. It just creates new branches for the updated information and re-uses all the old parts. This is super efficient and makes it easy to look up the state at any point in history.</p>
+<p>Polkadot also has <strong>Child Storage</strong>. You can think of this as creating separate, smaller state tries <em>inside</em> the main one. This is really useful for things like smart contracts, so that two different contracts can’t accidentally interfere with each other’s storage.</p>
+<h3 id="Building-a-Runtime-FRAME-and-Pallets"><a href="#Building-a-Runtime-FRAME-and-Pallets" class="headerlink" title="Building a Runtime: FRAME and Pallets"></a>Building a Runtime: FRAME and Pallets</h3><p>So, how does a developer actually build a runtime? They don’t have to write everything from scratch. They use a toolkit called <strong>FRAME (Framework for Runtime Aggregation of Modularized Entities)</strong>.</p>
+<p>Think of FRAME as a big box of Lego bricks for building blockchains. The bricks themselves are called <strong>Pallets</strong>.</p>
+<p>A <strong>Pallet</strong> is a module of code that handles one specific feature. There are pallets for:</p>
+<ul>
+<li>Managing account balances (the Balances pallet).</li>
+<li>Handling staking and validators (the Staking pallet).</li>
+<li>Enabling on-chain governance (the Governance pallet).</li>
+</ul>
+<p>To build a custom blockchain, a developer just picks the pallets they need, configures them, and puts them together. They can also create their own custom pallets for unique features.</p>
+<p>When writing a pallet, developers use simple tags to define how it works, like:</p>
+<ul>
+<li><code>#[pallet::storage]</code>: Defines a piece of data to be stored on the blockchain.</li>
+<li><code>#[pallet::event]</code>: Defines an event that can be emitted (e.g., “Tokens Transferred”).</li>
+<li><code>#[pallet::call]</code>: Defines a function that users can call (an extrinsic).</li>
+</ul>
+<hr>
+<p>And that’s the gist of it! The Runtime is the flexible, upgradeable “brain” of Polkadot, built from modular pallets using the FRAME framework. It’s what allows Polkadot and its parachains to be so powerful and adaptable.</p>
+<p>In the next post, we’ll look at the “body”—the Host—and explore how things like block production, finality, and networking actually work. Thanks for reading!</p>
+<hr>
+<h3 id="References-and-Further-Reading"><a href="#References-and-Further-Reading" class="headerlink" title="References and Further Reading"></a>References and Further Reading</h3><p>For those who want to go even deeper, these are some great resources to check out:</p>
+<ul>
+<li><p><strong><a target="_blank" rel="noopener" href="https://spec.polkadot.network/part-polkadot-runtime">Polkadot Runtime Specification</a></strong>: This is the official, highly technical specification for the Polkadot Runtime. It’s very detailed and perfect if you want to understand the exact mechanics of how everything works under the hood.</p>
+</li>
+<li><p><strong><a target="_blank" rel="noopener" href="https://docs.polkadot.com/develop/parachains/intro-polkadot-sdk/">Introduction to the Polkadot SDK</a></strong>: A fantastic starting point for developers. This document explains the tools and frameworks (like Substrate and FRAME) that are used to build runtimes and parachains on Polkadot[1].</p>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/DioBr4nd0">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Let%E2%80%99s-Learn-About-Polkadot%E2%80%99s-Brain-The-Runtime"><span class="toc-number">1.</span> <span class="toc-text">Let’s Learn About Polkadot’s Brain: The Runtime</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Some-Key-Concepts-Before-We-Start"><span class="toc-number">1.0.1.</span> <span class="toc-text">Some Key Concepts Before We Start</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Okay-Let%E2%80%99s-Get-Started-What-Is-Polkadot"><span class="toc-number">1.0.2.</span> <span class="toc-text">Okay, Let’s Get Started: What Is Polkadot?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Different-Jobs-Types-of-Nodes"><span class="toc-number">1.0.3.</span> <span class="toc-text">The Different Jobs: Types of Nodes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Look-at-the-Architecture"><span class="toc-number">1.0.4.</span> <span class="toc-text">A Look at the Architecture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Polkadot-Tech-Stack"><span class="toc-number">1.0.5.</span> <span class="toc-text">The Polkadot Tech Stack</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#A-Closer-Look-at-the-Runtime"><span class="toc-number">1.1.</span> <span class="toc-text">A Closer Look at the Runtime</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#How-History-is-Recorded-Blocks"><span class="toc-number">1.1.1.</span> <span class="toc-text">How History is Recorded: Blocks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Storing-Everything-The-State-Trie"><span class="toc-number">1.1.2.</span> <span class="toc-text">Storing Everything: The State Trie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Building-a-Runtime-FRAME-and-Pallets"><span class="toc-number">1.1.3.</span> <span class="toc-text">Building a Runtime: FRAME and Pallets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References-and-Further-Reading"><span class="toc-number">1.1.4.</span> <span class="toc-text">References and Further Reading</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&text=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&is_video=false&description=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Polkadot&#39;s Brain: The Runtime&body=Check out this article: https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&name=Polkadot&#39;s Brain: The Runtime&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&t=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Rupesh Prajapati
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/DioBr4nd0">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
