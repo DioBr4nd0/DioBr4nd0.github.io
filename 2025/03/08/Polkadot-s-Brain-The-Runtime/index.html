@@ -9,15 +9,15 @@
     <meta name="description" content="Let’s Learn About Polkadot’s Brain: The RuntimeHey everyone, today I want to break down one of the most important parts of Polkadot: its Runtime. It can seem complicated, but once you get the hang of">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Polkadot&#39;s Brain: The Runtime">
-<meta property="og:url" content="https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/index.html">
+<meta property="og:url" content="https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/index.html">
 <meta property="og:site_name" content="Dio&#39;s Blogs">
 <meta property="og:description" content="Let’s Learn About Polkadot’s Brain: The RuntimeHey everyone, today I want to break down one of the most important parts of Polkadot: its Runtime. It can seem complicated, but once you get the hang of">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://diobr4nd0.github.io/images/path_graph.png">
 <meta property="og:image" content="https://diobr4nd0.github.io/images/polkadot_detailed_arch.png">
 <meta property="og:image" content="https://diobr4nd0.github.io/images/definitions.png">
-<meta property="article:published_time" content="2025-06-08T17:53:02.000Z">
-<meta property="article:modified_time" content="2025-06-08T18:06:35.089Z">
+<meta property="article:published_time" content="2025-03-08T17:53:02.000Z">
+<meta property="article:modified_time" content="2025-06-17T19:52:42.377Z">
 <meta property="article:author" content="Rupesh Prajapati">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://diobr4nd0.github.io/images/path_graph.png">
@@ -85,8 +85,10 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" aria-label="Previous post" href="/2025/06/18/eBPF-A-Beginner%E2%80%99s-Guide-to-the-Future-of-Kernel-Programming/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
-        <li><a class="icon" aria-label="Next post" href="/2025/06/07/Understanding-Polkadot-What-is-it-why-it-matters/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/02/07/Understanding-Polkadot-What-is-it-why-it-matters/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -99,17 +101,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&text=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&is_video=false&description=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Polkadot&#39;s Brain: The Runtime&body=Check out this article: https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&name=Polkadot&#39;s Brain: The Runtime&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&t=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&text=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&is_video=false&description=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Polkadot&#39;s Brain: The Runtime&body=Check out this article: https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&name=Polkadot&#39;s Brain: The Runtime&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&t=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -141,7 +143,7 @@
       
     <div class="postdate">
       
-        <time datetime="2025-06-08T17:53:02.000Z" class="dt-published" itemprop="datePublished">2025-06-08</time>
+        <time datetime="2025-03-08T17:53:02.000Z" class="dt-published" itemprop="datePublished">2025-03-08</time>
         
       
     </div>
@@ -265,17 +267,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&text=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&is_video=false&description=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Polkadot&#39;s Brain: The Runtime&body=Check out this article: https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&name=Polkadot&#39;s Brain: The Runtime&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://diobr4nd0.github.io/2025/06/08/Polkadot-s-Brain-The-Runtime/&t=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&text=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&is_video=false&description=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Polkadot&#39;s Brain: The Runtime&body=Check out this article: https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&title=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&name=Polkadot&#39;s Brain: The Runtime&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://diobr4nd0.github.io/2025/03/08/Polkadot-s-Brain-The-Runtime/&t=Polkadot&#39;s Brain: The Runtime"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
