@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="eBPF: A Beginner’s Guide to the Future of Kernel Programming Introduction: The Heart of the Operating System – The Kernel The kernel is the core of every operating system, managing resources and ensur">
+    <meta name="description" content="Introduction: The Heart of the Operating System – The Kernel The kernel is the core of every operating system, managing resources and ensuring smooth communication between hardware and software. It de">
 <meta property="og:type" content="article">
 <meta property="og:title" content="eBPF: A Beginner’s Guide to the Future of Kernel Programming">
 <meta property="og:url" content="https://diobr4nd0.github.io/2025/06/18/eBPF-A-Beginner%E2%80%99s-Guide-to-the-Future-of-Kernel-Programming/index.html">
 <meta property="og:site_name" content="Dio&#39;s Blogs">
-<meta property="og:description" content="eBPF: A Beginner’s Guide to the Future of Kernel Programming Introduction: The Heart of the Operating System – The Kernel The kernel is the core of every operating system, managing resources and ensur">
+<meta property="og:description" content="Introduction: The Heart of the Operating System – The Kernel The kernel is the core of every operating system, managing resources and ensuring smooth communication between hardware and software. It de">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-06-17T19:51:07.000Z">
-<meta property="article:modified_time" content="2025-06-17T19:52:42.372Z">
+<meta property="article:modified_time" content="2025-06-17T20:05:49.631Z">
 <meta property="article:author" content="Rupesh Prajapati">
 <meta name="twitter:card" content="summary">
     
@@ -82,7 +82,7 @@
       <ul>
         
         
-        <li><a class="icon" aria-label="Next post" href="/2025/03/08/Polkadot-s-Brain-The-Runtime/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Next post" href="/2025/05/08/Polkadot-s-Brain-The-Runtime/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -112,7 +112,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#eBPF-A-Beginner%E2%80%99s-Guide-to-the-Future-of-Kernel-Programming"><span class="toc-number">1.</span> <span class="toc-text">eBPF: A Beginner’s Guide to the Future of Kernel Programming</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction-The-Heart-of-the-Operating-System-%E2%80%93-The-Kernel"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction: The Heart of the Operating System – The Kernel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-Makes-the-Linux-Kernel-Special"><span class="toc-number">1.2.</span> <span class="toc-text">What Makes the Linux Kernel Special?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enter-eBPF-What-Is-It"><span class="toc-number">1.3.</span> <span class="toc-text">Enter eBPF: What Is It?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-Do-We-Need-eBPF"><span class="toc-number">1.4.</span> <span class="toc-text">Why Do We Need eBPF?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Real-World-Use-Cases-of-eBPF"><span class="toc-number">1.5.</span> <span class="toc-text">Real-World Use Cases of eBPF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Meet-Aya-Rust%E2%80%99s-Gateway-to-eBPF"><span class="toc-number">1.6.</span> <span class="toc-text">Meet Aya: Rust’s Gateway to eBPF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Explaining-Key-Terms-in-Plain-English"><span class="toc-number">1.7.</span> <span class="toc-text">Explaining Key Terms in Plain English</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Wrapping-Up-The-Future-of-Kernel-Programming"><span class="toc-number">1.8.</span> <span class="toc-text">Wrapping Up: The Future of Kernel Programming</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">1.9.</span> <span class="toc-text">References</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction-The-Heart-of-the-Operating-System-%E2%80%93-The-Kernel"><span class="toc-number">1.</span> <span class="toc-text">Introduction: The Heart of the Operating System – The Kernel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-Makes-the-Linux-Kernel-Special"><span class="toc-number">2.</span> <span class="toc-text">What Makes the Linux Kernel Special?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enter-eBPF-What-Is-It"><span class="toc-number">3.</span> <span class="toc-text">Enter eBPF: What Is It?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-Do-We-Need-eBPF"><span class="toc-number">4.</span> <span class="toc-text">Why Do We Need eBPF?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Real-World-Use-Cases-of-eBPF"><span class="toc-number">5.</span> <span class="toc-text">Real-World Use Cases of eBPF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Meet-Aya-Rust%E2%80%99s-Gateway-to-eBPF"><span class="toc-number">6.</span> <span class="toc-text">Meet Aya: Rust’s Gateway to eBPF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Explaining-Key-Terms-in-Plain-English"><span class="toc-number">7.</span> <span class="toc-text">Explaining Key Terms in Plain English</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Up-Next-Deep-Dive-Into-eBPF-Applications"><span class="toc-number">8.</span> <span class="toc-text">Up Next: Deep Dive Into eBPF Applications</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">9.</span> <span class="toc-text">References</span></a></li></ol>
       </div>
     
   </span>
@@ -152,93 +152,67 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h1 id="eBPF-A-Beginner’s-Guide-to-the-Future-of-Kernel-Programming"><a href="#eBPF-A-Beginner’s-Guide-to-the-Future-of-Kernel-Programming" class="headerlink" title="eBPF: A Beginner’s Guide to the Future of Kernel Programming"></a>eBPF: A Beginner’s Guide to the Future of Kernel Programming</h1><hr>
-<h2 id="Introduction-The-Heart-of-the-Operating-System-–-The-Kernel"><a href="#Introduction-The-Heart-of-the-Operating-System-–-The-Kernel" class="headerlink" title="Introduction: The Heart of the Operating System – The Kernel"></a>Introduction: The Heart of the Operating System – The Kernel</h2><ul>
-<li>The <strong>kernel</strong> is the core of every operating system, managing resources and ensuring smooth communication between hardware and software[1][2].</li>
-<li>It decides which program gets CPU time, how memory is allocated, and how data moves between applications and hardware[1].</li>
-<li><strong>Analogy:</strong><br><em>The kernel is like the manager in a busy restaurant, taking orders from customers (applications), telling the kitchen (hardware) what to do, and ensuring everyone gets served efficiently and safely</em>[1].</li>
+    <h2 id="Introduction-The-Heart-of-the-Operating-System-–-The-Kernel"><a href="#Introduction-The-Heart-of-the-Operating-System-–-The-Kernel" class="headerlink" title="Introduction: The Heart of the Operating System – The Kernel"></a>Introduction: The Heart of the Operating System – The Kernel</h2><ul>
+<li>The <strong>kernel</strong> is the core of every operating system, managing resources and ensuring smooth communication between hardware and software.</li>
+<li>It decides which program gets CPU time, how memory is allocated, and how data moves between applications and hardware.</li>
+<li><strong>Analogy:</strong><br><em>The kernel is like the manager in a busy restaurant, taking orders from customers (applications), telling the kitchen (hardware) what to do, and ensuring everyone gets served efficiently and safely</em>.</li>
 </ul>
 <hr>
 <h2 id="What-Makes-the-Linux-Kernel-Special"><a href="#What-Makes-the-Linux-Kernel-Special" class="headerlink" title="What Makes the Linux Kernel Special?"></a>What Makes the Linux Kernel Special?</h2><ul>
-<li>The <strong>Linux kernel</strong> is open-source, meaning anyone can view, modify, and distribute its code[1][2].</li>
-<li>This openness has made Linux the backbone of the internet, powering servers, desktops, smartphones, and more[1][3].</li>
-<li>Modifying the kernel is risky; mistakes can crash the entire system. Traditionally, adding features meant writing kernel modules, which could destabilize the system if buggy[2].</li>
-<li><strong>Analogy:</strong><br><em>The Linux kernel is like a giant LEGO city that anyone can add to or modify. But if you snap in a faulty piece, the whole city could collapse</em>[1][2].</li>
+<li>The <strong>Linux kernel</strong> is open-source, meaning anyone can view, modify, and distribute its code.</li>
+<li>This openness has made Linux the backbone of the internet, powering servers, desktops, smartphones, atms and more.</li>
+<li>Modifying the kernel is risky; mistakes can crash the entire system. Traditionally, adding features meant writing kernel modules, which could destabilize the system if buggy.</li>
 </ul>
 <hr>
 <h2 id="Enter-eBPF-What-Is-It"><a href="#Enter-eBPF-What-Is-It" class="headerlink" title="Enter eBPF: What Is It?"></a>Enter eBPF: What Is It?</h2><ul>
-<li><strong>eBPF (Extended Berkeley Packet Filter)</strong> allows you to run custom programs inside the Linux kernel safely and efficiently, without modifying the kernel’s source code or risking system crashes[3][4].</li>
-<li>Originally designed for network packet filtering, eBPF now powers monitoring, security, and performance tuning tools[3][5].</li>
-<li><strong>Analogy:</strong><br><em>eBPF is like a set of smart, remote-controlled drones that can fly around your LEGO city, monitor traffic, fix problems, or add new features—without risking the city’s stability</em>[3][5].</li>
+<li><strong>eBPF (Extended Berkeley Packet Filter)</strong> allows you to run custom programs inside the Linux kernel safely and efficiently, without modifying the kernel’s source code or risking system crashes.</li>
+<li>Originally designed for network packet filtering, eBPF now powers monitoring, security, and performance tuning tools.</li>
+<li><strong>In Simple Language:</strong><br><em>eBPF is a stateless, sandboxed environment that runs inside the kernel. It lets you monitor, log, and filter data, but it doesn’t give you direct access to hardware or the ability to modify system behavior. Think of it like a silent observer inside the kernel — you can tell it what to watch, but not to take action beyond that.</em></li>
 </ul>
 <hr>
 <h2 id="Why-Do-We-Need-eBPF"><a href="#Why-Do-We-Need-eBPF" class="headerlink" title="Why Do We Need eBPF?"></a>Why Do We Need eBPF?</h2><ul>
-<li>Previously, monitoring or extending the kernel required complex, risky kernel modules and system restarts[3][4].</li>
-<li>eBPF enables small, safe programs that the kernel verifies before running. These can be loaded&#x2F;unloaded on the fly, making systems more flexible and secure[3][5].</li>
-<li><strong>Analogy:</strong><br><em>It’s like having a team of highly trained inspectors who can enter the restaurant (kernel) at any time, observe or tweak operations, and leave without disturbing diners or kitchen staff</em>[3][5].</li>
+<li><p>Before eBPF, monitoring or modifying system behavior meant writing kernel modules, which was risky — even a small bug could crash the entire system.<br><strong>eBPF solves this</strong> by allowing safe, sandboxed programs to run in the kernel. These programs are verified before execution, reducing the risk of crashes.</p>
+</li>
+<li><p>Traditional tools like <code>tcpdump</code> or <code>perf</code> either had limited visibility or added too much overhead when collecting data.<br><strong>eBPF solves this</strong> by providing deep, low-level access to kernel events with minimal performance impact, enabling real-time monitoring and filtering.</p>
+</li>
+<li><p>Security tools relied on static rules or post-incident logs, making them slow to react to threats.<br><strong>eBPF solves this</strong> by enabling real-time analysis and alerts directly in the kernel, improving detection and response times significantly.</p>
+</li>
 </ul>
 <hr>
 <h2 id="Real-World-Use-Cases-of-eBPF"><a href="#Real-World-Use-Cases-of-eBPF" class="headerlink" title="Real-World Use Cases of eBPF"></a>Real-World Use Cases of eBPF</h2><ul>
-<li><strong>Network Packet Filtering &amp; Monitoring:</strong><br>eBPF is used for high-performance network observability, filtering, and load balancing without kernel changes[4][5].</li>
-<li><strong>Performance Profiling &amp; Debugging:</strong><br>Tools like bpftrace use eBPF for deep system introspection and real-time performance analysis[6][9].</li>
-<li><strong>Security Monitoring &amp; Intrusion Detection:</strong><br>eBPF enables real-time detection of suspicious activities and enforcement of security policies[7][8].</li>
-<li><strong>Container Observability (e.g., Kubernetes):</strong><br>eBPF powers tools that monitor containerized workloads, providing visibility into microservices and network flows[8][9].</li>
-<li><strong>Analogy:</strong><br><em>eBPF gives your restaurant manager superpowers: instantly spotting problems in the kitchen, seeing which waiter is busiest, or catching a thief at the door—all without interrupting service</em>[4][5].</li>
+<li><strong>Network Packet Filtering &amp; Monitoring:</strong><br>eBPF is used for high-performance network observability, filtering, and load balancing without kernel changes.</li>
+<li><strong>Performance Profiling &amp; Debugging:</strong><br>Tools like bpftrace use eBPF for deep system introspection and real-time performance analysis.</li>
+<li><strong>Security Monitoring &amp; Intrusion Detection:</strong><br>eBPF enables real-time detection of suspicious activities and enforcement of security policies.</li>
+<li><strong>Container Observability (e.g., Kubernetes):</strong><br>eBPF powers tools that monitor containerized workloads, providing visibility into microservices and network flows.</li>
 </ul>
 <hr>
 <h2 id="Meet-Aya-Rust’s-Gateway-to-eBPF"><a href="#Meet-Aya-Rust’s-Gateway-to-eBPF" class="headerlink" title="Meet Aya: Rust’s Gateway to eBPF"></a>Meet Aya: Rust’s Gateway to eBPF</h2><ul>
-<li><strong>Aya</strong> is a Rust library for eBPF development, making it easier, safer, and more accessible to write eBPF programs[10].</li>
-<li>Aya leverages Rust’s safety features, reducing the risk of bugs and making kernel programming less intimidating[10].</li>
-<li><strong>Analogy:</strong><br><em>Aya is like a set of high-tech kitchen gadgets for your restaurant manager, making it easier to prepare new dishes (features) quickly and safely—even if you’re not a master chef (kernel developer)</em>[10].</li>
+<li><strong>Aya</strong> is a Rust library for eBPF development, making it easier, safer, and more accessible to write eBPF programs.</li>
+<li>Aya leverages Rust’s safety features, reducing the risk of bugs and making kernel programming less intimidating.</li>
 </ul>
 <hr>
 <h2 id="Explaining-Key-Terms-in-Plain-English"><a href="#Explaining-Key-Terms-in-Plain-English" class="headerlink" title="Explaining Key Terms in Plain English"></a>Explaining Key Terms in Plain English</h2><ul>
-<li><strong>Tracers:</strong><br>Security cameras in your restaurant, recording what happens for later review[9][11].</li>
-<li><strong>Syscalls (System Calls):</strong><br>The way applications (customers) ask the kernel (manager) for services, like “bring me a glass of water”[12].</li>
-<li><strong>XDP (eXpress Data Path):</strong><br>A fast lane at the restaurant entrance, where packets (guests) are checked and directed before entering the main dining area[13].</li>
-<li><strong>Packets:</strong><br>Letters in the mail—small bundles of data sent across the network[14].</li>
-<li><strong>Tracepoints, Kprobes, Uprobes:</strong><br>Checkpoints or listening posts to monitor what’s happening inside the kitchen (kernel) or dining room (user applications)[15].</li>
-<li><strong>BPF Maps:</strong><br>Shared notepads where inspectors (eBPF programs) and managers (user programs) can leave messages for each other[16].</li>
-<li><strong>Hooks:</strong><br>Specific moments or places in the workflow where you can insert custom actions, like checking every dish before it leaves the kitchen[17].</li>
-<li><strong>Verifier:</strong><br>The health inspector who checks every new recipe (eBPF program) to ensure it won’t make anyone sick (crash the system)[18].</li>
-<li><strong>Helper Functions:</strong><br>Pre-written tools or utensils that make common tasks easier for inspectors[19].</li>
-<li><strong>Tail Calls:</strong><br>A way for one inspector to hand off their job to another, like passing a ticket to the next waiter in line[20].</li>
-<li><strong>BPF Loader:</strong><br>The tool you use to bring new inspectors into the restaurant and assign them their tasks[21].</li>
-<li><strong>DaemonSet (for Kubernetes):</strong><br>Ensures every branch of your restaurant chain gets an inspector[22].</li>
-<li><strong>Analogy:</strong><br><em>If the world of eBPF is a restaurant, these terms are the roles, tools, and routines that keep everything running smoothly, safely, and efficiently</em>[9][11].</li>
+<li><strong>Tracers:</strong><br>Security cameras in your restaurant, recording what happens for later review.</li>
+<li><strong>Syscalls (System Calls):</strong><br>The way applications (customers) ask the kernel (manager) for services, like “bring me a glass of water”.</li>
+<li><strong>XDP (eXpress Data Path):</strong><br>A fast lane at the restaurant entrance, where packets (guests) are checked and directed before entering the main dining area.</li>
+<li><strong>Packets:</strong><br>Letters in the mail—small bundles of data sent across the network.</li>
+<li><strong>Tracepoints, Kprobes, Uprobes:</strong><br>Checkpoints or listening posts to monitor what’s happening inside the kitchen (kernel) or dining room (user applications).</li>
+<li><strong>BPF Maps:</strong><br>Shared notepads where inspectors (eBPF programs) and managers (user programs) can leave messages for each other.</li>
+<li><strong>Hooks:</strong><br>Specific moments or places in the workflow where you can insert custom actions, like checking every dish before it leaves the kitchen.</li>
+<li><strong>Verifier:</strong><br>The health inspector who checks every new recipe (eBPF program) to ensure it won’t make anyone sick (crash the system).</li>
+<li><strong>Helper Functions:</strong><br>Pre-written tools or utensils that make common tasks easier for inspectors.</li>
+<li><strong>Tail Calls:</strong><br>A way for one inspector to hand off their job to another, like passing a ticket to the next waiter in line.</li>
+<li><strong>BPF Loader:</strong><br>The tool you use to bring new inspectors into the restaurant and assign them their tasks.</li>
+<li><strong>DaemonSet (for Kubernetes):</strong><br>Ensures every branch of your restaurant chain gets an inspector.</li>
 </ul>
 <hr>
-<h2 id="Wrapping-Up-The-Future-of-Kernel-Programming"><a href="#Wrapping-Up-The-Future-of-Kernel-Programming" class="headerlink" title="Wrapping Up: The Future of Kernel Programming"></a>Wrapping Up: The Future of Kernel Programming</h2><ul>
-<li>eBPF is transforming Linux kernel interaction, making it safer and more flexible[3][4].</li>
-<li>Tools like Aya and a growing ecosystem of libraries and frameworks empower developers to extend and observe the kernel without fear[10][23].</li>
-<li>Whether building high-performance networks, securing cloud environments, or exploring system internals, eBPF is a technology worth learning[3][4].</li>
-<li><strong>Analogy:</strong><br><em>eBPF is like upgrading your restaurant with invisible, super-efficient staff and smart gadgets—suddenly, you can do more, do it better, and keep your customers (users) happier than ever</em>[3][4].</li>
-</ul>
+<h2 id="Up-Next-Deep-Dive-Into-eBPF-Applications"><a href="#Up-Next-Deep-Dive-Into-eBPF-Applications" class="headerlink" title="Up Next: Deep Dive Into eBPF Applications"></a>Up Next: Deep Dive Into eBPF Applications</h2><p>In the upcoming sections, I’ll be taking a hands-on approach to each of the real-world eBPF applications we discussed above. For every use case—whether it’s network monitoring, performance profiling, security, or container observability—I’ll walk you through a practical project that demonstrates how eBPF makes a difference in real systems.</p>
 <hr>
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://opensource.com/article/19/7/introduction-linux-kernel">Introduction to the Linux Kernel (opensource.com)</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.kernel.org/doc/html/latest/process/why.html">Why the Kernel Matters (kernel.org)</a></li>
 <li><a target="_blank" rel="noopener" href="https://ebpf.io/what-is-ebpf/">What is eBPF? (ebpf.io)</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.redhat.com/en/topics/linux/what-is-ebpf">What is eBPF? (Red Hat)</a></li>
-<li><a target="_blank" rel="noopener" href="https://cilium.io/blog/2021/06/22/what-is-ebpf">What is eBPF? (Cilium Blog)</a></li>
 <li><a target="_blank" rel="noopener" href="https://bpftrace.org/">bpftrace</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.aquasec.com/blog/ebpf-cloud-native-security/">eBPF and Cloud Native Security (AquaSec)</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cncf.io/blog/2021/10/21/ebpf-and-kubernetes/">eBPF and Kubernetes (CNCF)</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.brendangregg.com/blog/2019-01-01/learn-ebpf-tracing.html">Learn eBPF Tracing (Brendan Gregg)</a></li>
 <li><a target="_blank" rel="noopener" href="https://aya-rs.dev/">Aya Rust eBPF Library</a></li>
-<li><a target="_blank" rel="noopener" href="https://lwn.net/Articles/132196/">Tracepoints (LWN.net)</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/system-call-in-operating-system/">System Calls in Operating System (GeeksforGeeks)</a></li>
-<li><a target="_blank" rel="noopener" href="https://xdp-project.net/">XDP Project</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cloudflare.com/learning/network-layer/what-is-a-packet/">What is a Packet? (Cloudflare)</a></li>
-<li><a target="_blank" rel="noopener" href="https://lwn.net/Articles/132196/">Tracepoints (LWN.net)</a></li>
-<li><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man7/bpf-helpers.7.html">BPF Helper Functions</a></li>
-<li><a target="_blank" rel="noopener" href="https://ebpf.io/what-is-ebpf/#hooks">eBPF Hooks</a></li>
-<li><a target="_blank" rel="noopener" href="https://lwn.net/Articles/740157/">eBPF Verifier (LWN.net)</a></li>
-<li><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man7/bpf-helpers.7.html">BPF Helper Functions</a></li>
-<li><a target="_blank" rel="noopener" href="https://ebpf.io/what-is-ebpf/#faq">eBPF FAQ (ebpf.io)</a></li>
-<li><a target="_blank" rel="noopener" href="https://ebpf.io/what-is-ebpf/#faq">eBPF FAQ (ebpf.io)</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cncf.io/blog/2021/10/21/ebpf-and-kubernetes/">eBPF and Kubernetes (CNCF)</a></li>
-<li><a target="_blank" rel="noopener" href="https://ebpf.io/what-is-ebpf/#future">The Future of eBPF (ebpf.io)</a></li>
 </ol>
 
   </div>
@@ -267,7 +241,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#eBPF-A-Beginner%E2%80%99s-Guide-to-the-Future-of-Kernel-Programming"><span class="toc-number">1.</span> <span class="toc-text">eBPF: A Beginner’s Guide to the Future of Kernel Programming</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction-The-Heart-of-the-Operating-System-%E2%80%93-The-Kernel"><span class="toc-number">1.1.</span> <span class="toc-text">Introduction: The Heart of the Operating System – The Kernel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-Makes-the-Linux-Kernel-Special"><span class="toc-number">1.2.</span> <span class="toc-text">What Makes the Linux Kernel Special?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enter-eBPF-What-Is-It"><span class="toc-number">1.3.</span> <span class="toc-text">Enter eBPF: What Is It?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-Do-We-Need-eBPF"><span class="toc-number">1.4.</span> <span class="toc-text">Why Do We Need eBPF?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Real-World-Use-Cases-of-eBPF"><span class="toc-number">1.5.</span> <span class="toc-text">Real-World Use Cases of eBPF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Meet-Aya-Rust%E2%80%99s-Gateway-to-eBPF"><span class="toc-number">1.6.</span> <span class="toc-text">Meet Aya: Rust’s Gateway to eBPF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Explaining-Key-Terms-in-Plain-English"><span class="toc-number">1.7.</span> <span class="toc-text">Explaining Key Terms in Plain English</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Wrapping-Up-The-Future-of-Kernel-Programming"><span class="toc-number">1.8.</span> <span class="toc-text">Wrapping Up: The Future of Kernel Programming</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">1.9.</span> <span class="toc-text">References</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction-The-Heart-of-the-Operating-System-%E2%80%93-The-Kernel"><span class="toc-number">1.</span> <span class="toc-text">Introduction: The Heart of the Operating System – The Kernel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-Makes-the-Linux-Kernel-Special"><span class="toc-number">2.</span> <span class="toc-text">What Makes the Linux Kernel Special?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enter-eBPF-What-Is-It"><span class="toc-number">3.</span> <span class="toc-text">Enter eBPF: What Is It?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-Do-We-Need-eBPF"><span class="toc-number">4.</span> <span class="toc-text">Why Do We Need eBPF?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Real-World-Use-Cases-of-eBPF"><span class="toc-number">5.</span> <span class="toc-text">Real-World Use Cases of eBPF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Meet-Aya-Rust%E2%80%99s-Gateway-to-eBPF"><span class="toc-number">6.</span> <span class="toc-text">Meet Aya: Rust’s Gateway to eBPF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Explaining-Key-Terms-in-Plain-English"><span class="toc-number">7.</span> <span class="toc-text">Explaining Key Terms in Plain English</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Up-Next-Deep-Dive-Into-eBPF-Applications"><span class="toc-number">8.</span> <span class="toc-text">Up Next: Deep Dive Into eBPF Applications</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">9.</span> <span class="toc-text">References</span></a></li></ol>
       </div>
     
 
