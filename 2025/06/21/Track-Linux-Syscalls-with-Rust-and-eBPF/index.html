@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Track Linux Syscalls with Rust and eBPFThis blog post explains how to track Linux system calls (read, write, and open) using Rust and eBPF (extended Berkeley Packet Filter). We will walk through the e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Track Linux Syscalls with Rust and eBPF">
+<meta property="og:url" content="https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/index.html">
+<meta property="og:site_name" content="Dio&#39;s Blogs">
+<meta property="og:description" content="Track Linux Syscalls with Rust and eBPFThis blog post explains how to track Linux system calls (read, write, and open) using Rust and eBPF (extended Berkeley Packet Filter). We will walk through the e">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://diobr4nd0.github.io/images/ebpf_logger_output.png">
+<meta property="article:published_time" content="2025-06-20T19:15:35.000Z">
+<meta property="article:modified_time" content="2025-06-20T19:53:40.276Z">
+<meta property="article:author" content="Rupesh Prajapati">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://diobr4nd0.github.io/images/ebpf_logger_output.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Track Linux Syscalls with Rust and eBPF</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/DioBr4nd0">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/06/18/eBPF-A-Beginner%E2%80%99s-Guide-to-the-Future-of-Kernel-Programming/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&text=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&title=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&is_video=false&description=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Track Linux Syscalls with Rust and eBPF&body=Check out this article: https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&title=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&title=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&title=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&title=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&name=Track Linux Syscalls with Rust and eBPF&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&t=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Track-Linux-Syscalls-with-Rust-and-eBPF"><span class="toc-number">1.</span> <span class="toc-text">Track Linux Syscalls with Rust and eBPF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-Definitions"><span class="toc-number">1.1.</span> <span class="toc-text">Basic Definitions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setting-Up-the-Codebase"><span class="toc-number">1.2.</span> <span class="toc-text">Setting Up the Codebase</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Project-Structure-Overview"><span class="toc-number">1.3.</span> <span class="toc-text">Project Structure Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Writing-the-eBPF-Program-Logic"><span class="toc-number">1.4.</span> <span class="toc-text">Writing the eBPF Program Logic</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Creating-a-Map-to-Store-Syscall-Counts"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. Creating a Map to Store Syscall Counts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Defining-Counter-Functions-for-Each-Syscall"><span class="toc-number">1.4.2.</span> <span class="toc-text">2. Defining Counter Functions for Each Syscall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Incrementing-Syscall-Counts"><span class="toc-number">1.4.3.</span> <span class="toc-text">3. Incrementing Syscall Counts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Panic-Handler-in-eBPF"><span class="toc-number">1.4.4.</span> <span class="toc-text">4. Panic Handler in eBPF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Complete-eBPF-Program-Code"><span class="toc-number">1.4.5.</span> <span class="toc-text">5. Complete eBPF Program Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Building-the-eBPF-Program"><span class="toc-number">1.5.</span> <span class="toc-text">Building the eBPF Program</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Writing-the-User-Space-Rust-Program"><span class="toc-number">1.6.</span> <span class="toc-text">Writing the User-Space Rust Program</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Running-the-Program"><span class="toc-number">1.6.1.</span> <span class="toc-text">2. Running the Program</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Next-Steps"><span class="toc-number">1.7.</span> <span class="toc-text">Next Steps</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">1.8.</span> <span class="toc-text">References</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Track Linux Syscalls with Rust and eBPF
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Rupesh Prajapati</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-06-20T19:15:35.000Z" class="dt-published" itemprop="datePublished">2025-06-21</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="Track-Linux-Syscalls-with-Rust-and-eBPF"><a href="#Track-Linux-Syscalls-with-Rust-and-eBPF" class="headerlink" title="Track Linux Syscalls with Rust and eBPF"></a>Track Linux Syscalls with Rust and eBPF</h1><p>This blog post explains how to track Linux system calls (<code>read</code>, <code>write</code>, and <code>open</code>) using Rust and eBPF (extended Berkeley Packet Filter). We will walk through the entire process—from basic definitions, setting up the project, writing eBPF programs, to loading and running them in user space with Rust. The goal is to provide a clear, human-friendly guide with well-structured explanations and code examples.</p>
+<hr>
+<h2 id="Basic-Definitions"><a href="#Basic-Definitions" class="headerlink" title="Basic Definitions"></a>Basic Definitions</h2><p>Before diving into the code, let’s clarify some key concepts:</p>
+<ul>
+<li><strong>Syscall (System Call):</strong> A mechanism used by programs to request services from the kernel, such as reading or writing files.</li>
+<li><strong>read calls:</strong> System calls that read data from a file descriptor.</li>
+<li><strong>write calls:</strong> System calls that write data to a file descriptor.</li>
+<li><strong>open calls:</strong> System calls that open files or devices.</li>
+<li><strong>Kprobe:</strong> A kernel feature that allows attaching custom handlers to almost any kernel function entry point.</li>
+<li><strong>kretprobe:</strong> Similar to kprobe but attaches to function return points.</li>
+<li><strong>User space:</strong> The memory space where user applications run.</li>
+<li><strong>Kernel space:</strong> The protected memory space where the operating system kernel runs.</li>
+</ul>
+<hr>
+<h2 id="Setting-Up-the-Codebase"><a href="#Setting-Up-the-Codebase" class="headerlink" title="Setting Up the Codebase"></a>Setting Up the Codebase</h2><p>To start, follow the Rust eBPF development setup instructions provided by the Aya project:</p>
+<ol>
+<li><p>Install <code>cargo-generate</code> to scaffold new projects:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo install cargo-generate</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Generate a new eBPF project template:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo generate -a aya-rs/aya-template -n syscall_ebpf</span><br></pre></td></tr></table></figure>
+
+<p>During the prompts:</p>
+<ul>
+<li>Select <strong>kprobe</strong> as the type of eBPF program.</li>
+<li>Attach the kprobe to <code>__x64_sys_open</code> syscall (you will add others later).</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="Project-Structure-Overview"><a href="#Project-Structure-Overview" class="headerlink" title="Project Structure Overview"></a>Project Structure Overview</h2><p>The generated project will have three main parts:</p>
+<ul>
+<li><code>syscall_ebpf</code>: Contains the main Rust code for user-space logging and interaction.</li>
+<li><code>syscall_ebpf_common</code>: Defines shared data structures between user and kernel space.</li>
+<li><code>syscall_ebpf-ebpf</code>: Contains the eBPF program logic running inside the kernel.</li>
+</ul>
+<hr>
+<h2 id="Writing-the-eBPF-Program-Logic"><a href="#Writing-the-eBPF-Program-Logic" class="headerlink" title="Writing the eBPF Program Logic"></a>Writing the eBPF Program Logic</h2><h3 id="1-Creating-a-Map-to-Store-Syscall-Counts"><a href="#1-Creating-a-Map-to-Store-Syscall-Counts" class="headerlink" title="1. Creating a Map to Store Syscall Counts"></a>1. Creating a Map to Store Syscall Counts</h3><p>We use a <code>HashMap</code> in eBPF to keep track of how many times each syscall is called.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// In syscall_ebpf-ebpf/src/main.rs</span><br><span class="line"></span><br><span class="line">// Define a map with up to 10 entries to store counts keyed by syscall ID</span><br><span class="line">#[map]</span><br><span class="line">static mut SYSCALL_COUNTS: HashMap&lt;u32, u64&gt; = HashMap::&lt;u32, u64&gt;::with_max_entries(10, 0);</span><br></pre></td></tr></table></figure>
+
+<p>The <code>#[map]</code> macro declares this map for eBPF to manage in kernel space.</p>
+<h3 id="2-Defining-Counter-Functions-for-Each-Syscall"><a href="#2-Defining-Counter-Functions-for-Each-Syscall" class="headerlink" title="2. Defining Counter Functions for Each Syscall"></a>2. Defining Counter Functions for Each Syscall</h3><p>We attach kprobes to syscall entry points and increment counters accordingly. We assign arbitrary IDs for our syscalls:</p>
+<ul>
+<li><code>0</code> for <code>read</code></li>
+<li><code>1</code> for <code>write</code></li>
+<li><code>2</code> for <code>open</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// In syscall_ebpf-ebpf/src/main.rs</span><br><span class="line"></span><br><span class="line">#[kprobe]</span><br><span class="line">pub fn read_counter(ctx: ProbeContext) -&gt; u32 &#123;</span><br><span class="line">    increment_syscall_count(&amp;ctx, 0); // ID 0 for read</span><br><span class="line">    0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#[kprobe]</span><br><span class="line">pub fn write_counter(ctx: ProbeContext) -&gt; u32 &#123;</span><br><span class="line">    increment_syscall_count(&amp;ctx, 1); // ID 1 for write</span><br><span class="line">    0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#[kprobe]</span><br><span class="line">pub fn open_counter(ctx: ProbeContext) -&gt; u32 &#123;</span><br><span class="line">    increment_syscall_count(&amp;ctx, 2); // ID 2 for open</span><br><span class="line">    0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-Incrementing-Syscall-Counts"><a href="#3-Incrementing-Syscall-Counts" class="headerlink" title="3. Incrementing Syscall Counts"></a>3. Incrementing Syscall Counts</h3><p>This helper function updates the count for the given syscall ID.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// In syscall_ebpf-ebpf/src/main.rs</span><br><span class="line"></span><br><span class="line">fn increment_syscall_count(ctx: &amp;ProbeContext, syscall_id: u32) &#123;</span><br><span class="line">unsafe &#123;</span><br><span class="line">// Get a mutable pointer to the count for the given syscall_id.</span><br><span class="line">let count = SYSCALL_COUNTS.get_ptr_mut(&amp;syscall_id);</span><br><span class="line">    if let Some(count) = count &#123;</span><br><span class="line">        // If the key exists, increment the count.</span><br><span class="line">        *count += 1;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        // If the key doesn&#x27;t exist, insert a new entry with count 1.</span><br><span class="line">        // The unwrap_or_else is a simple way to handle potential errors on insertion.</span><br><span class="line">        SYSCALL_COUNTS.insert(&amp;syscall_id, &amp;1, 0).unwrap_or_else(|_| ());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // Log that a syscall was called, including its ID and the Process ID (PID).</span><br><span class="line">    info!(ctx, &quot;Syscall &#123;&#125; called by PID &#123;&#125;&quot;, syscall_id, bpf_get_current_pid_tgid() &gt;&gt; 32);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>We fetch a mutable pointer to the current count.</li>
+<li>If it exists, we increment it; otherwise, we insert an initial count of <code>1</code>.</li>
+<li>We log the syscall ID and the calling process’s PID for real-time visibility.</li>
+</ul>
+<h3 id="4-Panic-Handler-in-eBPF"><a href="#4-Panic-Handler-in-eBPF" class="headerlink" title="4. Panic Handler in eBPF"></a>4. Panic Handler in eBPF</h3><p>eBPF programs cannot unwind on panic, so we must provide a minimal handler that loops forever.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#[cfg(not(test))]</span><br><span class="line">#[panic_handler]</span><br><span class="line">fn panic(_info: &amp;core::panic::PanicInfo) -&gt; ! &#123;</span><br><span class="line">    loop &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-Complete-eBPF-Program-Code"><a href="#5-Complete-eBPF-Program-Code" class="headerlink" title="5. Complete eBPF Program Code"></a>5. Complete eBPF Program Code</h3><p>Here is the full source code for <code>syscall_ebpf-ebpf/src/main.rs</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">#![no_std]</span><br><span class="line">#![no_main]</span><br><span class="line">#![allow(warnings)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">use aya_ebpf::&#123;macros::kprobe, programs::ProbeContext, helpers::bpf_get_current_pid_tgid&#125;;</span><br><span class="line">use aya_log_ebpf::info;</span><br><span class="line">use aya_ebpf::maps::HashMap;</span><br><span class="line">use aya_ebpf::macros::map;</span><br><span class="line"></span><br><span class="line">#[map]</span><br><span class="line">static mut SYSCALL_COUNTS: HashMap&lt;u32, u64&gt; = HashMap::&lt;u32,u64&gt;::with_max_entries(10, 0);</span><br><span class="line"></span><br><span class="line">fn increment_syscall_count(ctx: &amp;ProbeContext, syscall_id:u32) &#123;</span><br><span class="line">    unsafe &#123;</span><br><span class="line">        let count = SYSCALL_COUNTS.get_ptr_mut(&amp;syscall_id);</span><br><span class="line">        if let Some(count) =count &#123;</span><br><span class="line">            *count +=1;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            SYSCALL_COUNTS.insert(&amp;syscall_id, &amp;1, 0).unwrap_or_else(|_| ());</span><br><span class="line">        &#125;</span><br><span class="line">        info!(ctx,&quot;Syscall &#123;&#125; called by PID &#123;&#125;&quot;,syscall_id, bpf_get_current_pid_tgid()&gt;&gt;32);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">#[kprobe]</span><br><span class="line">pub fn read_counter(ctx: ProbeContext) -&gt; u32&#123;</span><br><span class="line">    // Use &#x27;0&#x27; as an arbitrary ID for the &#x27;read&#x27; syscall</span><br><span class="line">    increment_syscall_count(&amp;ctx, 0);</span><br><span class="line">    0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#[kprobe]</span><br><span class="line">pub fn write_counter(ctx: ProbeContext) -&gt; u32 &#123;</span><br><span class="line">     // Use &#x27;1&#x27; as an arbitrary ID for the &#x27;write&#x27; syscall</span><br><span class="line">    increment_syscall_count(&amp;ctx, 1);</span><br><span class="line">    0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#[kprobe]</span><br><span class="line">pub fn open_counter(ctx: ProbeContext) -&gt; u32&#123;</span><br><span class="line">      // Use &#x27;2&#x27; as an arbitrary ID for the &#x27;open&#x27; syscall</span><br><span class="line">    increment_syscall_count(&amp;ctx, 2);</span><br><span class="line">    0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#[cfg(not(test))]</span><br><span class="line">#[panic_handler]</span><br><span class="line">fn panic(_info: &amp;core::panic::PanicInfo) -&gt; ! &#123;</span><br><span class="line">    loop &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#[link_section = &quot;license&quot;]</span><br><span class="line">#[no_mangle]</span><br><span class="line">static LICENSE: [u8; 13] = *b&quot;Dual MIT/GPL\0&quot;;</span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<h2 id="Building-the-eBPF-Program"><a href="#Building-the-eBPF-Program" class="headerlink" title="Building the eBPF Program"></a>Building the eBPF Program</h2><p>Create a <code>.cargo/config.toml</code> file inside the <code>syscall_ebpf-ebpf</code> directory with the following content to target the eBPF architecture:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[build]</span><br><span class="line">target = &quot;bpfel-unknown-none&quot;</span><br><span class="line"></span><br><span class="line">[target.bpfel-unknown-none]</span><br><span class="line">rustflags = [&quot;-C&quot;, &quot;panic=abort&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>Then build the program using the nightly toolchain:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo +nightly build --release -Z build-std=core</span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<h2 id="Writing-the-User-Space-Rust-Program"><a href="#Writing-the-User-Space-Rust-Program" class="headerlink" title="Writing the User-Space Rust Program"></a>Writing the User-Space Rust Program</h2><p>This program loads the eBPF bytecode, attaches the kprobes to the kernel functions, and periodically reads the syscall counts from the eBPF map to display them.</p>
+<p>Here is the complete code for <code>syscall_ebpf/src/main.rs</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">// syscall_ebpf/src/main.rs</span><br><span class="line"></span><br><span class="line">use anyhow::&#123;anyhow, Context&#125;; // Import Context for the .context() method</span><br><span class="line">use aya::maps::HashMap;</span><br><span class="line">use aya::programs::KProbe;</span><br><span class="line">use aya::&#123;include_bytes_aligned, Ebpf&#125;; // Use modern `Ebpf` type</span><br><span class="line">use aya_log::EbpfLogger; // Use modern `EbpfLogger` type</span><br><span class="line">use log::&#123;info, warn&#125;;</span><br><span class="line">use tokio::signal;</span><br><span class="line">use tokio::time::&#123;self, Duration&#125;;</span><br><span class="line"></span><br><span class="line">#[tokio::main]</span><br><span class="line">async fn main() -&gt; Result&lt;(), anyhow::Error&gt; &#123;</span><br><span class="line">    // This part loads the eBPF bytecode. It requires the file to exist.</span><br><span class="line">    // The conditional compilation (`#[cfg]`) handles both debug and release builds.</span><br><span class="line">    #[cfg(debug_assertions)]</span><br><span class="line">    let mut bpf = Ebpf::load(include_bytes_aligned!(</span><br><span class="line">        &quot;../../target/bpfel-unknown-none/release/syscall_ebpf&quot;</span><br><span class="line">    ))?;</span><br><span class="line">    #[cfg(not(debug_assertions))]</span><br><span class="line">    let mut bpf = Ebpf::load(include_bytes_aligned!(</span><br><span class="line">        &quot;../../target/bpfel-unknown-none/release/syscall_ebpf&quot;</span><br><span class="line">    ))?;</span><br><span class="line"></span><br><span class="line">    if let Err(e) = EbpfLogger::init(&amp;mut bpf) &#123;</span><br><span class="line">        warn!(&quot;failed to initialize eBPF logger: &#123;&#125;&quot;, e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Attach to the &#x27;read&#x27; syscall</span><br><span class="line">    let read_prog: &amp;mut KProbe = bpf.program_mut(&quot;read_counter&quot;).unwrap().try_into()?;</span><br><span class="line">    read_prog.load()?;</span><br><span class="line">    read_prog.attach(&quot;__x64_sys_read&quot;, 0)?;</span><br><span class="line">    info!(&quot;Attached kprobe to __x64_sys_read&quot;);</span><br><span class="line"></span><br><span class="line">    // Attach to the &#x27;write&#x27; syscall</span><br><span class="line">    let write_prog: &amp;mut KProbe = bpf.program_mut(&quot;write_counter&quot;).unwrap().try_into()?;</span><br><span class="line">    write_prog.load()?;</span><br><span class="line">    write_prog.attach(&quot;__x64_sys_write&quot;, 0)?;</span><br><span class="line">    info!(&quot;Attached kprobe to __x64_sys_write&quot;);</span><br><span class="line"></span><br><span class="line">    // Attach to the &#x27;open&#x27; syscall</span><br><span class="line">    let open_prog: &amp;mut KProbe = bpf.program_mut(&quot;open_counter&quot;).unwrap().try_into()?;</span><br><span class="line">    open_prog.load()?;</span><br><span class="line">    open_prog.attach(&quot;__x64_sys_open&quot;, 0)?;</span><br><span class="line">    info!(&quot;Attached kprobe to __x64_sys_open&quot;);</span><br><span class="line"></span><br><span class="line">    // **FIXED LINE:** Convert the Option from map_mut() into a Result using .context()</span><br><span class="line">    let counts_map_generic = bpf</span><br><span class="line">        .map_mut(&quot;SYSCALL_COUNTS&quot;)</span><br><span class="line">        .context(&quot;Failed to find the SYSCALL_COUNTS map&quot;)?;</span><br><span class="line">    let mut counts_map: HashMap&lt;_, u32, u64&gt; = HashMap::try_from(counts_map_generic)?;</span><br><span class="line"></span><br><span class="line">    info!(&quot;Waiting for Ctrl-C to exit...&quot;);</span><br><span class="line"></span><br><span class="line">    let mut interval = time::interval(Duration::from_secs(2));</span><br><span class="line">    loop &#123;</span><br><span class="line">        tokio::select! &#123;</span><br><span class="line">            _ = interval.tick() =&gt; &#123;</span><br><span class="line">                let read_count = counts_map.get(&amp;0, 0).unwrap_or(0);</span><br><span class="line">                let write_count = counts_map.get(&amp;1, 0).unwrap_or(0);</span><br><span class="line">                let open_count = counts_map.get(&amp;2, 0).unwrap_or(0);</span><br><span class="line"></span><br><span class="line">                println!(&quot;---------------------------------&quot;);</span><br><span class="line">                println!(&quot;Read calls:  &#123;&#125;&quot;, read_count);</span><br><span class="line">                println!(&quot;Write calls: &#123;&#125;&quot;, write_count);</span><br><span class="line">                println!(&quot;Open calls:  &#123;&#125;&quot;, open_count);</span><br><span class="line">            &#125;</span><br><span class="line">            _ = signal::ctrl_c() =&gt; &#123;</span><br><span class="line">                info!(&quot;Exiting...&quot;);</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Ok(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Running-the-Program"><a href="#2-Running-the-Program" class="headerlink" title="2. Running the Program"></a>2. Running the Program</h3><p>Run the user-space program with elevated privileges and specify your network interface (replace <code>enp2s0</code> with your interface):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RUST_LOG=info sudo -E cargo run -- -i enp2s0</span><br></pre></td></tr></table></figure>
+
+
+<p>You should see output similar to:</p>
+<p> <img src="/../images/ebpf_logger_output.png" alt="alt text"></p>
+<hr>
+<h2 id="Next-Steps"><a href="#Next-Steps" class="headerlink" title="Next Steps"></a>Next Steps</h2><p>This example demonstrates a simple but powerful way to track syscalls with Rust and eBPF. You can extend this foundation to:</p>
+<ul>
+<li>Parse and analyze network packets.</li>
+<li>Use tracepoints for more detailed kernel events.</li>
+<li>Build custom logging and monitoring tools for security or performance analysis.</li>
+</ul>
+<p>Stay tuned for more advanced eBPF tutorials!</p>
+<hr>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://aya-rs.dev/">Aya eBPF Rust Library</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.kernel.org/doc/html/latest/trace/kprobes.html">Linux Kernel Kprobes Documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://aya-rs.dev/book/start/development/">Rust eBPF Development Guide</a></li>
+</ul>
+<hr>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/DioBr4nd0">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Track-Linux-Syscalls-with-Rust-and-eBPF"><span class="toc-number">1.</span> <span class="toc-text">Track Linux Syscalls with Rust and eBPF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-Definitions"><span class="toc-number">1.1.</span> <span class="toc-text">Basic Definitions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setting-Up-the-Codebase"><span class="toc-number">1.2.</span> <span class="toc-text">Setting Up the Codebase</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Project-Structure-Overview"><span class="toc-number">1.3.</span> <span class="toc-text">Project Structure Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Writing-the-eBPF-Program-Logic"><span class="toc-number">1.4.</span> <span class="toc-text">Writing the eBPF Program Logic</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Creating-a-Map-to-Store-Syscall-Counts"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. Creating a Map to Store Syscall Counts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Defining-Counter-Functions-for-Each-Syscall"><span class="toc-number">1.4.2.</span> <span class="toc-text">2. Defining Counter Functions for Each Syscall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Incrementing-Syscall-Counts"><span class="toc-number">1.4.3.</span> <span class="toc-text">3. Incrementing Syscall Counts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Panic-Handler-in-eBPF"><span class="toc-number">1.4.4.</span> <span class="toc-text">4. Panic Handler in eBPF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Complete-eBPF-Program-Code"><span class="toc-number">1.4.5.</span> <span class="toc-text">5. Complete eBPF Program Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Building-the-eBPF-Program"><span class="toc-number">1.5.</span> <span class="toc-text">Building the eBPF Program</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Writing-the-User-Space-Rust-Program"><span class="toc-number">1.6.</span> <span class="toc-text">Writing the User-Space Rust Program</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Running-the-Program"><span class="toc-number">1.6.1.</span> <span class="toc-text">2. Running the Program</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Next-Steps"><span class="toc-number">1.7.</span> <span class="toc-text">Next Steps</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">1.8.</span> <span class="toc-text">References</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&text=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&title=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&is_video=false&description=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Track Linux Syscalls with Rust and eBPF&body=Check out this article: https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&title=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&title=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&title=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&title=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&name=Track Linux Syscalls with Rust and eBPF&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://diobr4nd0.github.io/2025/06/21/Track-Linux-Syscalls-with-Rust-and-eBPF/&t=Track Linux Syscalls with Rust and eBPF"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Rupesh Prajapati
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/DioBr4nd0">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
